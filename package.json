@@ -1,7 +1,6 @@
 {
   "name": "bhojmandubackend",
   "version": "1.0.0",
-  "private": true,
   "main": "app.js",
   "scripts": {
     "start": "nodemon bin/www",

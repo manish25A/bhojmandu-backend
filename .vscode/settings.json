@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/7e5b4ae4-78ef-42d4-9519-2834d1538965/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/bhojmandu-backend",
+    "appService.deploySubpath": "."
+}

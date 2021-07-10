@@ -1,46 +1,46 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcryptjs');
+var multer = require("multer");
+
 const {
-	vendorLogin,
-	getVendor,
-	getVendors,
-	vendorLogout,
-	vendorUpdate,
-} = require('../controllers/vendor');
-const imageupload = require('../middleware/imageUpload');
+  vendorRegister,
+  vendorLogin,
+  getVendor,
+  getVendors,
+  vendorLogout,
+  vendorUpdate,
+} = require("../controllers/vendor");
 
-const { vendorprotect } = require('../middleware/vendorauth');
-const Vendor = require('../models/Vendor');
-
-router.post('/register', imageupload.single('photo'), function (req, res) {
-	const { vendorName, vendorEmail, vendorAddress } = req.body;
-	const salt = bcrypt.genSaltSync(10);
-	const photo = req.file.filename;
-
-	bcrypt.hash(req.body.vendorPassword, salt, function (err, hashedPassword) {
-		const vendorData = new Vendor({
-			vendorName,
-			vendorEmail,
-			vendorAddress,
-			vendorPassword: hashedPassword,
-			photo: photo,
-		});
-		vendorData
-			.save()
-			.then(function () {
-				res.status(201).json({ message: 'Successfully Registered' });
-			})
-			.catch(function (error) {
-				res.status(500).json({ message: error });
-			});
-	});
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, "UploadedOn" + Date.now() + "fileOrigName" + file.originalname);
+  },
 });
+const filefilter = function (req, file, cb) {
+	if (
+		file.mimetype !== 'image/png' ||
+		file.mimetype !== 'image/jpg' ||
+		file.mimetype !== 'image/jpeg'
+	) {
+		req.file_error="file not allowed"
+		cb(null, false);
+	} else {
+		cb(null, true);
+	}
+};
+var upload = multer({ storage: storage,fileFilter:filefilter });
 
-router.route('/').get(getVendors);
-router.route('/update').put(vendorprotect, vendorUpdate);
-router.post('/login', vendorLogin);
-router.get('/get', vendorprotect, getVendor);
-router.get('/logout', vendorLogout);
+const { vendorprotect } = require("../middleware/vendorauth");
+const Vendor = require("../models/Vendor");
+
+router.post("/register", upload.single('photo'), vendorRegister);
+router.route("/").get(getVendors);
+router.route("/update").put(vendorprotect, vendorUpdate);
+router.post("/login", vendorLogin);
+router.get("/get", vendorprotect, getVendor);
+router.get("/logout", vendorLogout);
 
 module.exports = router;

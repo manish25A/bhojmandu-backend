@@ -10,7 +10,7 @@ const {
 } = require('../controllers/user');
 
 const { protect } = require('../middleware/auth');
-const upload = require('../middleware/imageUpload');
+const upload = require('../middleware/multer');
 
 router.route('/register', upload.imageupload).post(register);
 router.post('/login', login);

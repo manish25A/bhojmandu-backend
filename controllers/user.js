@@ -6,15 +6,17 @@ const bcrypt = require('bcryptjs');
 // --------------------------REGISTER customer-----------------
 
 exports.register = asyncHandler(async (req, res, next) => {
-	const { fname, lname, email, number, password } = await req.body;
+	const { fname, lname, email, number } = await req.body;
+	const salt = await bcrypt.genSaltSync(10);
+	const hashedPassword = await bcrypt.hash(req.body.password, salt);
+	// console.log(hashedPassword);
 	const customer = await Customer.create({
 		fname,
 		lname,
 		email,
 		number,
-		password,
+		password: hashedPassword,
 	});
-	console.log(customer);
 	sendTokenResponse(customer, 200, res);
 });
 

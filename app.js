@@ -40,7 +40,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //logger
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 //cors option for xss protection
 // var corsOptions = {
 // 	origin: 'http://localhost:3000',

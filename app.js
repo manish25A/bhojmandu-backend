@@ -38,6 +38,8 @@ const vendorRoute = require('./routes/vendorRoute');
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
+//image upload to azure blob storage
+
 
 //logger
 app.use(morgan('dev'));

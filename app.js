@@ -42,15 +42,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 //logger
 app.use(morgan('combined'));
 //cors option for xss protection
-var corsOptions = {
-	origin: 'http://localhost:3000',
-	optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+// var corsOptions = {
+// 	origin: 'http://localhost:3000',
+// 	optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+// };
 
 //using cors for react
 // app.use(cors());
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use('/customer/auth/', customerRoute);
 app.use('/product', productRoute);

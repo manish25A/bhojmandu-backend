@@ -16,7 +16,7 @@ exports.vendorRegister = asyncHandler(async (req, res, next) => {
     vendorEmail,
     vendorAddress,
     vendorPassword: hashedPassword,
-    photo: req.file.path,
+    photo:req.file.path,
   });
   sendTokenResponse(vendor, 200, res);
 });
